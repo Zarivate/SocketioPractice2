@@ -32,8 +32,14 @@ io.on("connection", (socket) => {
     console.log(`User with ID: ${socket.id} joined room: ${data}`);
   });
 
+  // The emit for whenever someone sends a message/pushes the send button on the Chat
+  socket.on("send_message", (data) => {
+    // This is to ensure we only send the data to the person(s) in the same room
+    socket.to(data.room).emit("receive_message", data);
+  });
+
   socket.on("disconnect", () => {
-    console.log("User has left", socket.id);
+    console.log("User Disconnected", socket.id);
   });
 });
 
