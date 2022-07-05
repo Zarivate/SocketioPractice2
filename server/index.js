@@ -25,7 +25,12 @@ const io = new Server(server, {
 
 // The events we listen to happen, listed below
 io.on("connection", (socket) => {
-  console.log(socket.id);
+  console.log(`User Connected: ${socket.id}`);
+
+  socket.on("join_room", (data) => {
+    socket.join(data);
+    console.log(`User with ID: ${socket.id} joined room: ${data}`);
+  });
 
   socket.on("disconnect", () => {
     console.log("User has left", socket.id);
